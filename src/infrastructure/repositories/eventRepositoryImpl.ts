@@ -84,4 +84,14 @@ export class EventRepositoryImpl implements EventRepository {
     const eventModels = await EventModel.findAll({ where: whereClause })
     return eventModels.map((eventModel) => this.toDomain(eventModel))
   }
+
+  /**
+   * Deletes an event by its ID.
+   *
+   * @param {number} id - The ID of the event.
+   * @returns {Promise<void>}
+   */
+  async deleteById(id: number): Promise<void> {
+    await EventModel.destroy({ where: { id } })
+  }
 }

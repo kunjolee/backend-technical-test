@@ -3,6 +3,7 @@ import { CreateEvent } from '../../../application/use-cases/createEvent'
 import { EventRepositoryImpl } from '../../repositories/eventRepositoryImpl'
 import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
 import { GetEventById } from '../../../application/use-cases/getEventById'
+import { DeleteEvent } from '../../../application/use-cases/deleteEvent'
 
 /**
  * Class representing the event controller.
@@ -12,12 +13,14 @@ export class EventController {
   private createEventUseCase: CreateEvent
   private getAllEventsUseCase: GetAllEvents
   private getEventByIdUseCase: GetEventById
+  private deleteEventUseCase: DeleteEvent
 
   constructor() {
     this.eventRepository = new EventRepositoryImpl()
     this.createEventUseCase = new CreateEvent(this.eventRepository)
     this.getAllEventsUseCase = new GetAllEvents(this.eventRepository)
     this.getEventByIdUseCase = new GetEventById(this.eventRepository)
+    this.deleteEventUseCase = new DeleteEvent(this.eventRepository)
   }
 
   /**
@@ -56,15 +59,24 @@ export class EventController {
   }
 
   /**
-   * Deletes an event.
+   * Deletes an event by its ID.
    *
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  public deleteEvent(req: Request, res: Response): void {
-    // Logic to delete an event
-    res.json({ message: 'Event deleted successfully' })
+  public async deleteEvent(req: Request, res: Response): Promise<void> {
+    const { id } = req.params
+    try {
+      await this.deleteEventUseCase.execute(Number(id))
+      res.status(200).json({ message: 'Event deleted successfully' })
+    } catch (error: any) {
+      if (error.message === 'Event not found') {
+        res.status(404).json({ error: error.message })
+      } else {
+        res.status(400).json({ error: error.message })
+      }
+    }
   }
 
   /**
