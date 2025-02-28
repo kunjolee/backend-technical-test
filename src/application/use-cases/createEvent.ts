@@ -14,7 +14,7 @@ export class CreateEvent {
   }: EventType): Promise<Event> {
     const event = new Event(null, name, description, date, location, organizer)
 
-    await this.eventRepository.save(event)
-    return event
+    const savedEvent = await this.eventRepository.save(event)
+    return savedEvent
   }
 }
