@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { CreateEvent } from '../../../application/use-cases/createEvent'
 import { EventRepositoryImpl } from '../../repositories/eventRepositoryImpl'
+import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
 
 /**
  * Class representing the event controller.
@@ -8,10 +9,12 @@ import { EventRepositoryImpl } from '../../repositories/eventRepositoryImpl'
 export class EventController {
   private eventRepository: EventRepositoryImpl
   private createEventUseCase: CreateEvent
+  private getAllEventsUseCase: GetAllEvents
 
   constructor() {
     this.eventRepository = new EventRepositoryImpl()
     this.createEventUseCase = new CreateEvent(this.eventRepository)
+    this.getAllEventsUseCase = new GetAllEvents(this.eventRepository)
   }
 
   /**
@@ -68,9 +71,18 @@ export class EventController {
    * @param {Response} res - The response object.
    * @returns {void}
    */
-  public getEvents(req: Request, res: Response): void {
-    // Logic to get all events
-    res.json({ events: [] })
+  public async getAllEvents(req: Request, res: Response): Promise<void> {
+    const { location, date, organizer } = req.query
+    try {
+      const events = await this.getAllEventsUseCase.execute({
+        location: location as string,
+        date: date ? new Date(date as string) : undefined,
+        organizer: organizer as string
+      })
+      res.status(200).json(events)
+    } catch (error: any) {
+      res.status(400).json({ error: error.message })
+    }
   }
 
   /**

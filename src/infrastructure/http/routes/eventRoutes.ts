@@ -8,7 +8,7 @@ const eventController = new EventController()
  * @route GET /events
  * @description Retrieves all events
  */
-router.get('/', (req, res) => eventController.getEvents(req, res))
+router.get('/', (req, res) => eventController.getAllEvents(req, res))
 
 /**
  * @route GET /events/:id
