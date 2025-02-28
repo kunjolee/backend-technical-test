@@ -11,7 +11,7 @@ class Server {
 
   constructor() {
     this.app = express()
-    this.port = env.port
+    this.port = env.PORT
     this.path = {
       events: '/api/events'
     }
@@ -23,9 +23,10 @@ class Server {
     this.app.use(this.path.events, eventsRoutes)
   }
 
-  listen() {
+  public listen() {
     this.app.listen(this.port, () => {
-      console.log(`Go to http://localhost:${this.port}${this.path.events}`)
+      console.log(`Server running at http://localhost:${this.port}`)
+      console.log(`Visit: http://localhost:${this.port}${this.path.events}`)
     })
   }
 }
