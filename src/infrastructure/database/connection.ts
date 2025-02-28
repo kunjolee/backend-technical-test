@@ -19,7 +19,10 @@ const createDatabaseURI = (
 const URI = createDatabaseURI(USER, DB_PASSWORD, HOST, PORT, DB_NAME)
 
 const sequelize = new Sequelize(URI, {
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false
 })
+
+sequelize.sync()
 
 export default sequelize
