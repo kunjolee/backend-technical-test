@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import eventsRoutes from '../routes/eventRoutes'
 
+import { env } from '../../config/env'
 import type { ServerRoutes, PORT } from './types/serverTypes'
 
 class Server {
@@ -10,7 +11,7 @@ class Server {
 
   constructor() {
     this.app = express()
-    this.port = process.env.PORT || 3000
+    this.port = env.port
     this.path = {
       events: '/api/events'
     }
@@ -24,7 +25,7 @@ class Server {
 
   listen() {
     this.app.listen(this.port, () => {
-      console.log(`Server running at http://localhost:${this.port}`)
+      console.log(`Go to http://localhost:${this.port}${this.path.events}`)
     })
   }
 }
