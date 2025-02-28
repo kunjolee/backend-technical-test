@@ -1,6 +1,6 @@
 import Event from '../../domain/models/event'
 import { EventRepository } from '../../domain/repositories/eventRepository'
-import { EventType } from './types'
+import { EventType } from './types/useCasesTypes'
 
 export class CreateEvent {
   constructor(private readonly eventRepository: EventRepository) {}
