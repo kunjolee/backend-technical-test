@@ -1,7 +1,8 @@
 import Event from '../../domain/models/event'
+import { EventRepository } from '../../domain/repositories/eventRepository'
 import EventModel from '../database/models/eventModel'
 
-export class EventRepositoryImpl {
+export class EventRepositoryImpl implements EventRepository {
   private toDomain(eventModel: EventModel): Event {
     return new Event(
       eventModel.id,
