@@ -15,5 +15,8 @@
     "url": "https://github.com/kunjolee/backend-technical-test/issues"
   },
   "homepage": "https://github.com/kunjolee/backend-technical-test#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
 }
