@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { CreateEvent } from '../../../application/use-cases/createEvent'
 import { EventRepositoryImpl } from '../../repositories/eventRepositoryImpl'
 import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
+import { GetEventById } from '../../../application/use-cases/getEventById'
 
 /**
  * Class representing the event controller.
@@ -10,11 +11,13 @@ export class EventController {
   private eventRepository: EventRepositoryImpl
   private createEventUseCase: CreateEvent
   private getAllEventsUseCase: GetAllEvents
+  private getEventByIdUseCase: GetEventById
 
   constructor() {
     this.eventRepository = new EventRepositoryImpl()
     this.createEventUseCase = new CreateEvent(this.eventRepository)
     this.getAllEventsUseCase = new GetAllEvents(this.eventRepository)
+    this.getEventByIdUseCase = new GetEventById(this.eventRepository)
   }
 
   /**
@@ -92,8 +95,17 @@ export class EventController {
    * @param {Response} res - The response object.
    * @returns {void}
    */
-  public getEventById(req: Request, res: Response): void {
-    // Logic to get an event by ID
-    res.json({ event: {} })
+  public async getEventById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params
+    try {
+      const event = await this.getEventByIdUseCase.execute(Number(id))
+      if (event) {
+        res.status(200).json(event)
+      } else {
+        res.status(404).json({ message: 'Event not found' })
+      }
+    } catch (error: any) {
+      res.status(400).json({ error: error.message })
+    }
   }
 }
