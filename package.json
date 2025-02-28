@@ -1,12 +1,14 @@
 {
   "name": "backend-technical-test",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
+    "dev": "node --watch dist/index.js",
     "start": "npm run build && node dist/index.js",
-    "dev": "node --watch index.ts"
+    "ts-watch": "npx tsc -w"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,11 @@
   "homepage": "https://github.com/kunjolee/backend-technical-test#readme",
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "prettier": "^3.5.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
   }
 }
