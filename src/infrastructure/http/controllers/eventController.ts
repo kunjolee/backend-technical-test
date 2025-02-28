@@ -4,6 +4,7 @@ import { EventRepositoryImpl } from '../../repositories/eventRepositoryImpl'
 import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
 import { GetEventById } from '../../../application/use-cases/getEventById'
 import { DeleteEvent } from '../../../application/use-cases/deleteEvent'
+import { UpdateEvent } from '../../../application/use-cases/updateEvent'
 
 /**
  * Class representing the event controller.
@@ -14,6 +15,7 @@ export class EventController {
   private getAllEventsUseCase: GetAllEvents
   private getEventByIdUseCase: GetEventById
   private deleteEventUseCase: DeleteEvent
+  private updateEventUseCase: UpdateEvent
 
   constructor() {
     this.eventRepository = new EventRepositoryImpl()
@@ -21,8 +23,8 @@ export class EventController {
     this.getAllEventsUseCase = new GetAllEvents(this.eventRepository)
     this.getEventByIdUseCase = new GetEventById(this.eventRepository)
     this.deleteEventUseCase = new DeleteEvent(this.eventRepository)
+    this.updateEventUseCase = new UpdateEvent(this.eventRepository)
   }
-
   /**
    * Creates a new event.
    *
@@ -51,11 +53,28 @@ export class EventController {
    *
    * @param {Request} req - The request object.
    * @param {Response} res - The response object.
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  public updateEvent(req: Request, res: Response): void {
-    // Logic to update an event
-    res.json({ message: 'Event updated successfully' })
+  public async updateEvent(req: Request, res: Response): Promise<void> {
+    const { id } = req.params
+    const { name, description, date, location, organizer } = req.body
+    try {
+      const event = await this.updateEventUseCase.execute({
+        id: Number(id),
+        name,
+        description,
+        date,
+        location,
+        organizer
+      })
+      res.status(200).json(event)
+    } catch (error: any) {
+      if (error.message === 'Event not found') {
+        res.status(404).json({ error: error.message })
+      } else {
+        res.status(400).json({ error: error.message })
+      }
+    }
   }
 
   /**

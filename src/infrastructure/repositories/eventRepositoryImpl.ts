@@ -94,4 +94,19 @@ export class EventRepositoryImpl implements EventRepository {
   async deleteById(id: number): Promise<void> {
     await EventModel.destroy({ where: { id } })
   }
+
+  /**
+   * Updates an event.
+   *
+   * @param {Event} event - The event to update.
+   * @returns {Promise<Event>} The updated event.
+   */
+  async update(event: Event): Promise<Event> {
+    const eventData = this.toPersistence(event)
+    const [_, [updatedEvent]] = await EventModel.update(eventData, {
+      where: { id: event.id },
+      returning: true
+    })
+    return this.toDomain(updatedEvent)
+  }
 }
