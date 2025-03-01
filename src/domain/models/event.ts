@@ -3,7 +3,7 @@ export default class Event {
     public id: number | null,
     public name: string,
     public description: string,
-    public date: Date,
+    public date: string,
     public location: string,
     public organizer: string,
     public createdAt?: Date,

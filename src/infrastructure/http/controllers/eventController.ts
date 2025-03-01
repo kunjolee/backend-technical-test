@@ -5,6 +5,7 @@ import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
 import { GetEventById } from '../../../application/use-cases/getEventById'
 import { DeleteEvent } from '../../../application/use-cases/deleteEvent'
 import { UpdateEvent } from '../../../application/use-cases/updateEvent'
+import { handleCommonErrors } from '../utils/handleError'
 
 /**
  * Class representing the event controller.
@@ -33,18 +34,17 @@ export class EventController {
    * @returns {Promise<void>}
    */
   public async createEvent(req: Request, res: Response): Promise<void> {
-    const { name, description, date, location, organizer } = req.body
     try {
-      const event = await this.createEventUseCase.execute({
-        name,
-        description,
-        date,
-        location,
-        organizer
+      // Send the request body directly because it was validated by the middleware
+      const event = await this.createEventUseCase.execute(req.body)
+      res.status(201).json({
+        status: 201,
+        message: 'Event created successfully',
+        data: event
       })
-      res.status(201).json(event)
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -67,13 +67,15 @@ export class EventController {
         location,
         organizer
       })
-      res.status(200).json(event)
+
+      res.status(200).json({
+        status: 200,
+        message: 'Event updated successfully',
+        data: event
+      })
     } catch (error: any) {
-      if (error.message === 'Event not found') {
-        res.status(404).json({ error: error.message })
-      } else {
-        res.status(400).json({ error: error.message })
-      }
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -88,13 +90,13 @@ export class EventController {
     const { id } = req.params
     try {
       await this.deleteEventUseCase.execute(Number(id))
-      res.status(200).json({ message: 'Event deleted successfully' })
+      res.status(200).json({
+        status: 200,
+        message: 'Event deleted successfully'
+      })
     } catch (error: any) {
-      if (error.message === 'Event not found') {
-        res.status(404).json({ error: error.message })
-      } else {
-        res.status(400).json({ error: error.message })
-      }
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -106,16 +108,17 @@ export class EventController {
    * @returns {void}
    */
   public async getAllEvents(req: Request, res: Response): Promise<void> {
-    const { location, date, organizer } = req.query
     try {
-      const events = await this.getAllEventsUseCase.execute({
-        location: location as string,
-        date: date ? new Date(date as string) : undefined,
-        organizer: organizer as string
+      // Send the request query directly because it was validated by the middleware
+      const events = await this.getAllEventsUseCase.execute(req.query)
+
+      res.status(200).json({
+        status: 200,
+        data: events
       })
-      res.status(200).json(events)
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -131,12 +134,17 @@ export class EventController {
     try {
       const event = await this.getEventByIdUseCase.execute(Number(id))
       if (event) {
-        res.status(200).json(event)
+        res.status(200).json({
+          status: 200,
+          data: event
+        })
       } else {
-        res.status(404).json({ message: 'Event not found' })
+        const errorResponse = handleCommonErrors({ message: 'Event not found' })
+        res.status(errorResponse.status).json(errorResponse)
       }
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 }

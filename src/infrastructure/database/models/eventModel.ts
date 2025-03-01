@@ -9,7 +9,7 @@ class EventModel extends Model {
   public id!: number
   public name!: string
   public description!: string
-  public date!: Date
+  public date!: string
   public location!: string
   public organizer!: string
   public readonly createdAt!: Date
@@ -34,11 +34,11 @@ EventModel.init(
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       comment: 'Description of the event'
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       comment: 'Date of the event'
     },
@@ -49,7 +49,7 @@ EventModel.init(
     },
     organizer: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       comment: 'Organizer of the event'
     }
   },

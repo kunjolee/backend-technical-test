@@ -1,5 +1,5 @@
 interface findAllType {
   location?: string
-  date?: Date
+  date?: string
   organizer?: string
 }

@@ -4,6 +4,7 @@ import eventsRoutes from '../routes/eventRoutes'
 import { env } from '../../config/env'
 import type { ServerRoutes, PORT } from './types/serverTypes'
 import sequelize, { database } from '../../database/connection'
+import { cleanNullResponse } from '../middlewares/cleanNullReponse'
 
 /**
  * Class representing the server.
@@ -40,6 +41,8 @@ class Server {
    */
   middleware(): void {
     this.app.use(express.json())
+    this.app.use(cleanNullResponse)
+    this.app.use(express.static('public'))
   }
 
   /**
