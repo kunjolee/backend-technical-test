@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { EventController } from '../controllers/eventController'
+import { validateDTO } from '../middlewares/validateDTO'
+import { CreateEventDTO } from '../../../application/dtos/createEventDTO'
 
 const router = Router()
 const eventController = new EventController()
@@ -20,7 +22,9 @@ router.get('/:id', (req, res) => eventController.getEventById(req, res))
  * @route POST /events
  * @description Creates a new event
  */
-router.post('/', (req, res) => eventController.createEvent(req, res))
+router.post('/', validateDTO(CreateEventDTO), (req, res) =>
+  eventController.createEvent(req, res)
+)
 
 /**
  * @route PUT /events/:id

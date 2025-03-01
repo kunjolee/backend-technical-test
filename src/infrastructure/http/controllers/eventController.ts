@@ -33,18 +33,20 @@ export class EventController {
    * @returns {Promise<void>}
    */
   public async createEvent(req: Request, res: Response): Promise<void> {
-    const { name, description, date, location, organizer } = req.body
     try {
-      const event = await this.createEventUseCase.execute({
-        name,
-        description,
-        date,
-        location,
-        organizer
+      // Send the request body directly because it was validated by the middleware
+      const event = await this.createEventUseCase.execute(req.body)
+      res.status(201).json({
+        status: 201,
+        message: 'Event created successfully',
+        data: event
       })
-      res.status(201).json(event)
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      res.status(500).json({
+        status: 500,
+        message: error.message,
+        error: 'Internal Server Error'
+      })
     }
   }
 
