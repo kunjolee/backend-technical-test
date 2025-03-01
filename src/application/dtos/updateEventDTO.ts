@@ -55,12 +55,15 @@ export class UpdateEventDTO {
     errors: string[],
     validator: (value: any, errors: string[]) => void
   ): void {
-    if (value !== undefined) {
-      if (value === '') {
-        errors.push(`${fieldName} cannot be empty`)
-      } else {
-        validator(value, errors)
-      }
+    if (value === undefined) {
+      return
     }
+
+    if (value === '') {
+      errors.push(`${fieldName} cannot be empty`)
+      return
+    }
+
+    validator(value, errors)
   }
 }
