@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ALLOWED_EVENT_QUERY_PARAMS } from '../../../application/constants/eventConstants'
+import { handleBadRequest } from '../utils/handleError'
 
 /**
  * Interface representing a validatable Data Transfer Object (DTO).
@@ -23,11 +24,13 @@ export function validateQueryParams(dtoClass: ValidatableDTO) {
     )
 
     if (invalidQueryParams.length > 0) {
-      res.status(400).json({
-        status: 400,
-        message: `Invalid query param(s): ${invalidQueryParams.join(', ')}`,
-        error: 'Bad Request'
-      })
+      res
+        .status(400)
+        .json(
+          handleBadRequest(
+            `Invalid query param(s): ${invalidQueryParams.join(', ')}`
+          )
+        )
       return
     }
 
@@ -41,11 +44,13 @@ export function validateQueryParams(dtoClass: ValidatableDTO) {
 
     const errors = dto.validate()
     if (errors.length > 0) {
-      res.status(400).json({
-        status: 400,
-        message: errors,
-        error: 'Bad Request'
-      })
+      res
+        .status(400)
+        .json(
+          handleBadRequest(
+            `Invalid query param(s): ${invalidQueryParams.join(', ')}`
+          )
+        )
       return
     }
 

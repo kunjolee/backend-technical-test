@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { ALLOWED_EVENT_BODY_FIELDS } from '../../../application/constants/eventConstants'
+import { handleBadRequest } from '../utils/handleError'
 
 /**
  * Interface representing a validatable Data Transfer Object (DTO).
@@ -17,22 +18,18 @@ interface ValidatableDTO {
 export function validateDTO(dtoClass: ValidatableDTO) {
   return (req: Request, res: Response, next: NextFunction) => {
     const bodyFields = Object.keys(req.body)
-    // Identify any invalid fields that are not allowed in the DTO
     const invalidFields = bodyFields.filter(
       (field) => !ALLOWED_EVENT_BODY_FIELDS.includes(field)
     )
 
     if (invalidFields.length > 0) {
-      // If there are invalid fields, respond with a 400 status and the invalid fields
-      res.status(400).json({
-        status: 400,
-        message: `Invalid field(s): ${invalidFields.join(', ')}`,
-        error: 'Bad Request'
-      })
+      res
+        .status(400)
+        .json(handleBadRequest(`Invalid field(s): ${invalidFields.join(', ')}`))
+
       return
     }
 
-    // Create an instance of the DTO class with the request body
     const dto = new dtoClass(
       req.body.name,
       req.body.description,
@@ -41,19 +38,13 @@ export function validateDTO(dtoClass: ValidatableDTO) {
       req.body.organizer
     )
 
-    // Validate the DTO instance
     const errors = dto.validate()
     if (errors.length > 0) {
-      // If there are validation errors, respond with a 400 status and the errors
-      res.status(400).json({
-        status: 400,
-        message: errors,
-        error: 'Bad Request'
-      })
-    } else {
-      // If validation passes, replace the request body with the DTO instance and proceed
-      req.body = dto
-      next()
+      res.status(400).json(handleBadRequest(errors))
+      return
     }
+
+    req.body = dto
+    next()
   }
 }

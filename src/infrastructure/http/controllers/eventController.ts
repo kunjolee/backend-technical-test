@@ -5,6 +5,7 @@ import { GetAllEvents } from '../../../application/use-cases/getAllEvents'
 import { GetEventById } from '../../../application/use-cases/getEventById'
 import { DeleteEvent } from '../../../application/use-cases/deleteEvent'
 import { UpdateEvent } from '../../../application/use-cases/updateEvent'
+import { handleCommonErrors } from '../utils/handleError'
 
 /**
  * Class representing the event controller.
@@ -42,11 +43,8 @@ export class EventController {
         data: event
       })
     } catch (error: any) {
-      res.status(500).json({
-        status: 500,
-        message: error.message,
-        error: 'Internal Server Error'
-      })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -76,17 +74,8 @@ export class EventController {
         data: event
       })
     } catch (error: any) {
-      if (error.message === 'Event not found') {
-        res
-          .status(404)
-          .json({ status: 404, message: error.message, error: '404 Not Found' })
-      } else {
-        res.status(500).json({
-          status: 500,
-          message: error.message,
-          error: 'Internal Server Error'
-        })
-      }
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -101,13 +90,13 @@ export class EventController {
     const { id } = req.params
     try {
       await this.deleteEventUseCase.execute(Number(id))
-      res.status(200).json({ message: 'Event deleted successfully' })
+      res.status(200).json({
+        status: 200,
+        message: 'Event deleted successfully'
+      })
     } catch (error: any) {
-      if (error.message === 'Event not found') {
-        res.status(404).json({ error: error.message })
-      } else {
-        res.status(400).json({ error: error.message })
-      }
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -128,11 +117,8 @@ export class EventController {
         data: events
       })
     } catch (error: any) {
-      res.status(500).json({
-        status: 500,
-        message: error.message,
-        error: 'Internal Server Error'
-      })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 
@@ -148,12 +134,17 @@ export class EventController {
     try {
       const event = await this.getEventByIdUseCase.execute(Number(id))
       if (event) {
-        res.status(200).json(event)
+        res.status(200).json({
+          status: 200,
+          data: event
+        })
       } else {
-        res.status(404).json({ message: 'Event not found' })
+        const errorResponse = handleCommonErrors({ message: 'Event not found' })
+        res.status(errorResponse.status).json(errorResponse)
       }
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      const errorResponse = handleCommonErrors(error)
+      res.status(errorResponse.status).json(errorResponse)
     }
   }
 }
