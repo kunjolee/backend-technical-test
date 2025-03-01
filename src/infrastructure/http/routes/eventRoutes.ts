@@ -27,10 +27,10 @@ router.post('/', validateDTO(CreateEventDTO), (req, res) =>
 )
 
 /**
- * @route PUT /events/:id
+ * @route PATCH /events/:id
  * @description Updates an existing event
  */
-router.put('/:id', (req, res) => eventController.updateEvent(req, res))
+router.patch('/:id', (req, res) => eventController.updateEvent(req, res))
 
 /**
  * @route DELETE /events/:id
