@@ -6,7 +6,7 @@ export default class Event {
     public date: string,
     public location: string,
     public organizer: string,
-    public createdAt?: Date,
-    public updatedAt?: Date
+    public created_at?: Date,
+    public updated_at?: Date
   ) {}
 }

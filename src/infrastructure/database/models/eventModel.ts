@@ -12,8 +12,8 @@ class EventModel extends Model {
   public date!: string
   public location!: string
   public organizer!: string
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
+  public readonly created_at!: Date
+  public readonly updated_at!: Date
 }
 
 /**
@@ -56,7 +56,9 @@ EventModel.init(
   {
     sequelize,
     modelName: 'event',
-    timestamps: true, // Enable timestamps (createdAt, updatedAt)
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'Event',
     comment: 'Table to store event details'
   }

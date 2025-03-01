@@ -20,8 +20,8 @@ export class EventRepositoryImpl implements EventRepository {
       eventModel.date,
       eventModel.location,
       eventModel.organizer,
-      eventModel.createdAt,
-      eventModel.updatedAt
+      eventModel.created_at,
+      eventModel.updated_at
     )
   }
 
