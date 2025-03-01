@@ -119,16 +119,20 @@ export class EventController {
    * @returns {void}
    */
   public async getAllEvents(req: Request, res: Response): Promise<void> {
-    const { location, date, organizer } = req.query
     try {
-      const events = await this.getAllEventsUseCase.execute({
-        location: location as string,
-        date: date as string,
-        organizer: organizer as string
+      // Send the request query directly because it was validated by the middleware
+      const events = await this.getAllEventsUseCase.execute(req.query)
+
+      res.status(200).json({
+        status: 200,
+        data: events
       })
-      res.status(200).json(events)
     } catch (error: any) {
-      res.status(400).json({ error: error.message })
+      res.status(500).json({
+        status: 500,
+        message: error.message,
+        error: 'Internal Server Error'
+      })
     }
   }
 
