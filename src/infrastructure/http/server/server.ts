@@ -42,6 +42,7 @@ class Server {
   middleware(): void {
     this.app.use(express.json())
     this.app.use(cleanNullResponse)
+    this.app.use(express.static('public'))
   }
 
   /**
