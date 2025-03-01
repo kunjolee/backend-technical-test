@@ -57,8 +57,7 @@ class Server {
    */
   public listen(): void {
     this.app.listen(this.port, () => {
-      console.log(`Server running at http://localhost:${this.port}`)
-      console.log(`Visit: http://localhost:${this.port}${this.path.events}`)
+      console.log(`Server running on PORT: ${this.port}`)
     })
   }
 }

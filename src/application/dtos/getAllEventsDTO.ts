@@ -19,9 +19,9 @@ type ValidatorFunction = {
  */
 export class GetAllEventsDTO {
   constructor(
-    public location?: string,
-    public date?: string,
-    public organizer?: string
+    private location?: string,
+    private date?: string,
+    private organizer?: string
   ) {}
 
   /**

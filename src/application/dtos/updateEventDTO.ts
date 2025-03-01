@@ -11,11 +11,11 @@ import {
  */
 export class UpdateEventDTO {
   constructor(
-    public name?: string,
-    public description?: string,
-    public date?: string,
-    public location?: string,
-    public organizer?: string
+    private name?: string,
+    private description?: string,
+    private date?: string,
+    private location?: string,
+    private organizer?: string
   ) {}
 
   /**

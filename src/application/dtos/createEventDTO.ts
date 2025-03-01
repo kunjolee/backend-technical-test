@@ -11,11 +11,11 @@ import {
  */
 export class CreateEventDTO {
   constructor(
-    public name: string,
-    public description: string | null,
-    public date: string,
-    public location: string,
-    public organizer: string | null
+    private name: string,
+    private description: string | null,
+    private date: string,
+    private location: string,
+    private organizer: string | null
   ) {}
 
   /**

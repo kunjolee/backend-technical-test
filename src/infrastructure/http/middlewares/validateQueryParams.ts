@@ -44,13 +44,7 @@ export function validateQueryParams(dtoClass: ValidatableDTO) {
 
     const errors = dto.validate()
     if (errors.length > 0) {
-      res
-        .status(400)
-        .json(
-          handleBadRequest(
-            `Invalid query param(s): ${invalidQueryParams.join(', ')}`
-          )
-        )
+      res.status(400).json(handleBadRequest(errors))
       return
     }
 
