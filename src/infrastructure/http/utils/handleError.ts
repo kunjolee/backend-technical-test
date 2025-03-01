@@ -26,7 +26,7 @@ export const createErrorResponse = ({
  * @returns {Object} The error response object.
  */
 export const handleCommonErrors = (error: any): HandleErrorResponse => {
-  return error.message === 'Event not found'
+  return error.message === 'Event not found' || 'No events found'
     ? createErrorResponse({
         status: 404,
         message: error.message,

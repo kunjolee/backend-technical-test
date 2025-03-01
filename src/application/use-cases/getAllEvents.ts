@@ -18,6 +18,9 @@ export class GetAllEvents {
    */
   async execute(filters?: findAllType): Promise<Event[]> {
     const events = await this.eventRepository.findAll(filters)
+    if (!events.length) {
+      throw new Error('No events found')
+    }
     return events
   }
 }
