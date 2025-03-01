@@ -56,8 +56,6 @@ export function validateDate(
     errors.push('Date must be in YYYY-MM-DD format')
   } else if (isFutureEvent && new Date(date) <= new Date()) {
     errors.push('Date must be in the future')
-  } else if (!validString(date)) {
-    errors.push('Date must be a string')
   }
 }
 
@@ -75,7 +73,7 @@ export function validateLocation(
 ): void {
   if (!location && isRequired) {
     errors.push('Location is required')
-  } else if (!isValidDate(location)) {
+  } else if (!validString(location)) {
     errors.push('Location must be a string')
   } else if (location.length > 200) {
     errors.push('Location must not exceed 200 characters')
