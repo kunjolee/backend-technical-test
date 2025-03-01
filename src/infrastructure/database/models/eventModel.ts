@@ -34,7 +34,7 @@ EventModel.init(
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       comment: 'Description of the event'
     },
     date: {
@@ -49,7 +49,7 @@ EventModel.init(
     },
     organizer: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       comment: 'Organizer of the event'
     }
   },
