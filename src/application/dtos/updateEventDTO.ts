@@ -60,7 +60,7 @@ export class UpdateEventDTO {
     }
 
     if (value === '') {
-      errors.push(`${fieldName} cannot be empty`)
+      errors.push(`${fieldName} cannot be empty when updating`)
       return
     }
 
