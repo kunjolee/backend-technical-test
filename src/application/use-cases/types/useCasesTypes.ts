@@ -5,6 +5,6 @@ export interface EventType {
   date: string
   location: string
   organizer: string
-  createdAt?: Date | null
-  updatedAt?: Date | null
+  created_at?: Date | null
+  updated_at?: Date | null
 }
