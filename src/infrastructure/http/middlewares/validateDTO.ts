@@ -16,7 +16,6 @@ interface ValidatableDTO {
  */
 export function validateDTO(dtoClass: ValidatableDTO) {
   return (req: Request, res: Response, next: NextFunction) => {
-    // Extract the fields from the request body
     const bodyFields = Object.keys(req.body)
     // Identify any invalid fields that are not allowed in the DTO
     const invalidFields = bodyFields.filter(

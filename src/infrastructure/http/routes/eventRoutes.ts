@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { EventController } from '../controllers/eventController'
 import { validateDTO } from '../middlewares/validateDTO'
 import { CreateEventDTO } from '../../../application/dtos/createEventDTO'
+import { UpdateEventDTO } from '../../../application/dtos/updateEventDTO'
 
 const router = Router()
 const eventController = new EventController()
@@ -30,7 +31,9 @@ router.post('/', validateDTO(CreateEventDTO), (req, res) =>
  * @route PATCH /events/:id
  * @description Updates an existing event
  */
-router.patch('/:id', (req, res) => eventController.updateEvent(req, res))
+router.patch('/:id', validateDTO(UpdateEventDTO), (req, res) =>
+  eventController.updateEvent(req, res)
+)
 
 /**
  * @route DELETE /events/:id

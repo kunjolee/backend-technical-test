@@ -69,12 +69,23 @@ export class EventController {
         location,
         organizer
       })
-      res.status(200).json(event)
+
+      res.status(200).json({
+        status: 200,
+        message: 'Event updated successfully',
+        data: event
+      })
     } catch (error: any) {
       if (error.message === 'Event not found') {
-        res.status(404).json({ error: error.message })
+        res
+          .status(404)
+          .json({ status: 404, message: error.message, error: '404 Not Found' })
       } else {
-        res.status(400).json({ error: error.message })
+        res.status(500).json({
+          status: 500,
+          message: error.message,
+          error: 'Internal Server Error'
+        })
       }
     }
   }
