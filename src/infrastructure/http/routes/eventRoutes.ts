@@ -1,8 +1,10 @@
 import { Router } from 'express'
 import { EventController } from '../controllers/eventController'
 import { validateDTO } from '../middlewares/validateDTO'
+import { validateQueryParams } from '../middlewares/validateQueryParams'
 import { CreateEventDTO } from '../../../application/dtos/createEventDTO'
 import { UpdateEventDTO } from '../../../application/dtos/updateEventDTO'
+import { GetAllEventsDTO } from '../../../application/dtos/getAllEventsDTO'
 
 const router = Router()
 const eventController = new EventController()
@@ -11,7 +13,9 @@ const eventController = new EventController()
  * @route GET /events
  * @description Retrieves all events
  */
-router.get('/', (req, res) => eventController.getAllEvents(req, res))
+router.get('/', validateQueryParams(GetAllEventsDTO), (req, res) =>
+  eventController.getAllEvents(req, res)
+)
 
 /**
  * @route GET /events/:id

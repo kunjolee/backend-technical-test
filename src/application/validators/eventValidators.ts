@@ -26,7 +26,8 @@ export function validateDescription(
 export function validateDate(
   date: string,
   errors: string[],
-  isRequired: boolean = false
+  isRequired: boolean = false,
+  isFutureEvent: boolean = true
 ): void {
   if (!date && isRequired) {
     errors.push('Date is required')
@@ -34,7 +35,7 @@ export function validateDate(
     errors.push('Date must be a string')
   } else if (!isValidDate(date)) {
     errors.push('Date must be in YYYY-MM-DD format')
-  } else if (new Date(date) <= new Date()) {
+  } else if (isFutureEvent && new Date(date) <= new Date()) {
     errors.push('Date must be in the future')
   }
 }

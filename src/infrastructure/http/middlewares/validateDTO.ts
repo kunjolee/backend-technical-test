@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { EVENT_ALLOWED_BODY_FIELDS } from '../../../application/constants/eventConstants'
+import { ALLOWED_EVENT_BODY_FIELDS } from '../../../application/constants/eventConstants'
 
 /**
  * Interface representing a validatable Data Transfer Object (DTO).
@@ -19,7 +19,7 @@ export function validateDTO(dtoClass: ValidatableDTO) {
     const bodyFields = Object.keys(req.body)
     // Identify any invalid fields that are not allowed in the DTO
     const invalidFields = bodyFields.filter(
-      (field) => !EVENT_ALLOWED_BODY_FIELDS.includes(field)
+      (field) => !ALLOWED_EVENT_BODY_FIELDS.includes(field)
     )
 
     if (invalidFields.length > 0) {

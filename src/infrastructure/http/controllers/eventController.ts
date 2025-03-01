@@ -123,7 +123,7 @@ export class EventController {
     try {
       const events = await this.getAllEventsUseCase.execute({
         location: location as string,
-        date: date ? new Date(date as string) : undefined,
+        date: date as string,
         organizer: organizer as string
       })
       res.status(200).json(events)
