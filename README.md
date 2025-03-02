@@ -189,6 +189,54 @@ This structure ensures a clean separation of concerns, making the application mo
 
 ---
 
+### API Endpoints
+
+- **Base Path**: The API starts with `/api/` to clearly indicate it is an API.
+- **Root Endpoint**:
+
+  - **Root URL (`/`)**: When accessing the root URL, a simple HTML page is displayed with a welcome message and a link to the events API.
+    This was implemented to provide a more user-friendly experience instead of showing a generic "Can't GET" message.
+
+#### Endpoints:
+
+1. **Create an Event**:
+
+   - **Endpoint**: `POST {{base_url}}/api/events`
+   - **Description**: Creates a new event. The request body must include the required fields: `name`, `date`, and `location`.
+
+2. **Retrieve All Events**:
+
+   - **Endpoint**: `GET {{base_url}}/api/events`
+   - **Optional Filters**: You can filter events using query parameters:
+     - By date: `{{base_url}}/api/events?date={date}`
+     - By location: `{{base_url}}/api/events?location={location}`
+     - By organizer: `{{base_url}}/api/events?organizer={organizer}`
+   - **Description**: Retrieves a list of all events or filtered events.
+
+3. **Retrieve a Single Event by ID**:
+
+   - **Endpoint**: `GET {{base_url}}/api/events/{id}`
+   - **Description**: Retrieves the details of a specific event by its unique ID.
+
+4. **Update an Event**:
+
+   - **Endpoint**: `PUT {{base_url}}/api/events/{id}`
+   - **Description**: Updates the details of an existing event. The request body can include any of the allowed fields: `name`, `description`, `date`, `location`, or `organizer`.
+
+5. **Delete an Event**:
+   - **Endpoint**: `DELETE {{base_url}}/api/events/{id}`
+   - **Description**: Deletes an event by its unique ID.
+
+---
+
+### API Design
+
+- **Standardized Responses**:
+  - Error responses are standardized to provide consistent feedback to clients.
+  - Success responses are tailored to the specific endpoint, avoiding unnecessary data in responses.
+
+---
+
 ### Development Workflow:
 
 - **Local Run (Simplified Mode)**: Run `npm run start` to compile TypeScript to JavaScript and start the application. This command is designed to quickly run the app locally without needing to execute multiple commands. It is not intended for active development
@@ -224,24 +272,6 @@ This structure ensures a clean separation of concerns, making the application mo
 
 - **Dotenv**: Used to manage environment variables, ensuring sensitive configuration (e.g., database credentials) is not hardcoded.
 - **Centralized Configuration**: A `config/env.ts` file was created within the infrastructure layer to centralize access to environment variables, improving maintainability and reducing duplication.
-
----
-
-### API Design
-
-- **Standardized Responses**:
-  - Error responses are standardized to provide consistent feedback to clients.
-  - Success responses are tailored to the specific endpoint, avoiding unnecessary data in responses.
-
----
-
-### API Endpoints
-
-- **Base Path**: The API starts with `/api/` to clearly indicate it is an API.
-- **Root Endpoint**:
-
-  - **Root URL (`/`)**: When accessing the root URL, a simple HTML page is displayed with a welcome message and a link to the events API.
-    This was implemented to provide a more user-friendly experience instead of showing a generic "Can't GET" message.
 
 ---
 
