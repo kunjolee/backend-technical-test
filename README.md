@@ -16,11 +16,15 @@ This project is an Event Management Service developed in TypeScript using a Doma
 
 ## Project URL
 
-[Link to deployed project](#) _(pending update)_
+[Link to deployed project](https://backend-technical-1003984329252.us-central1.run.app/)
 
 ## Postman Endpoints
 
-[Link to Postman collection](#) _(pending update)_
+[Link to Postman collection](https://www.postman.com/gold-capsule-198581/backend-technical/request/cnk47ls/backend-technical-test?action=share&creator=19426074&ctx=documentation&active-environment=19426074-6e23c036-e3e5-4e3f-ae77-36c44d235042)
+
+**Recommendation:**
+
+To properly test the endpoints, I recommend creating a **fork** of this collection in your own Postman workspace. This will allow you to modify and execute requests.
 
 ## Setup Instructions
 
@@ -231,14 +235,6 @@ This structure ensures a clean separation of concerns, making the application mo
 
 ---
 
-### Deployment
-
-- **Google Cloud Platform (GCP)**:
-  - **Cloud Run**: Chosen for deploying the API due to its scalability, managed infrastructure, and support for containerized applications.
-  - **Cloud SQL**: Used for the managed PostgreSQL instance, ensuring reliability and ease of maintenance.
-
----
-
 ### API Endpoints
 
 - **Base Path**: The API starts with `/api/` to clearly indicate it is an API.
@@ -246,3 +242,11 @@ This structure ensures a clean separation of concerns, making the application mo
 
   - **Root URL (`/`)**: When accessing the root URL, a simple HTML page is displayed with a welcome message and a link to the events API.
     This was implemented to provide a more user-friendly experience instead of showing a generic "Can't GET" message.
+
+---
+
+### Deployment
+
+- **Google Cloud Platform (GCP)**:
+  - **Cloud Run**: Chosen for deploying the API due to its scalability, managed infrastructure, and support for containerized applications.
+  - **Cloud SQL**: Used for the managed PostgreSQL instance, ensuring reliability and ease of maintenance.
