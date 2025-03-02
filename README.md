@@ -121,8 +121,7 @@ To run the project using Docker, follow these steps:
    ```bash
    docker run --env-file .env -p 3000:3000 backend-technical-test
    ```
-
-   > ⚠️ **Note: Make sure you have the `.env` file set up with the required environment variables to run the Docker instance correctly. For details on setting up the `.env` file, refer to the [Set up environment variables](#set-up-environment-variables) section.**
+ > ⚠️ **Note: Make sure you have the `.env` file set up with the required environment variables to run the Docker instance correctly. The `--env-file .env` flag passes the environment variables to the container. For details on setting up the `.env` file, refer to the [Set up environment variables](#set-up-environment-variables) section.**
 
 3. **Access the application:**
 
